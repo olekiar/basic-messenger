@@ -1,0 +1,30 @@
+CREATE DATABASE basic_messenger;
+
+CREATE TABLE User (
+    UserID int NOT NULL AUTO_INCREMENT,
+    UserName varchar(255),
+    CreatedDate DATETIME NOT NULL DEFAULT (NOW()),
+    PRIMARY KEY (UserID),
+    UNIQUE (UserName)
+);
+
+CREATE TABLE Conversation (
+    ConversationID int NOT NULL AUTO_INCREMENT,
+    UserID1 int,
+    UserID2 int,
+    CreatedDate DATETIME NOT NULL DEFAULT (NOW()),
+    PRIMARY KEY (ConversationID),
+    FOREIGN KEY (UserID1) REFERENCES User(UserID),
+    FOREIGN KEY (UserID2) REFERENCES User(UserID)
+);
+
+CREATE TABLE Message (
+    MessageID int NOT NULL AUTO_INCREMENT,
+    SenderID int,
+    ConversationID int,
+    Message varchar(255),
+    CreatedDate DATETIME NOT NULL DEFAULT (NOW()),
+    PRIMARY KEY (MessageID),
+    FOREIGN KEY (ConversationID) REFERENCES Conversation(ConversationID),
+    FOREIGN KEY (SenderID) REFERENCES User(UserID)
+);
